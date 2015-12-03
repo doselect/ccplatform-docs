@@ -18,51 +18,41 @@ search: true
 
 # Introduction
 
-The Stripe API is organized around REST. Our API has predictable, resource-oriented URLs, and uses HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which are understood by off-the-shelf HTTP clients. We support cross-origin resource sharing, allowing you to interact securely with our API from a client-side web application (though you should never expose your secret API key in any public website's client-side code). JSON is returned by all API responses, including errors, although our API libraries convert responses to appropriate language-specific objects.
-To make the API as explorable as possible, accounts have test mode and live mode API keys. There is no "switch" for changing between modes, just use the appropriate key to perform a live or test transaction. Requests made with test mode credentials never hit the banking networks and incur no cost.
+The DoSelect Partner API a.k.a. PAPI is organized around REST. Our API has predictable, resource-oriented URLs, and uses HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which are understood by off-the-shelf HTTP clients. We support cross-origin resource sharing, allowing you to interact securely with our API from a client-side web application (though you should never expose your secret API key in any public website's client-side code). JSON is returned by all API responses, including errors, although our API libraries convert responses to appropriate language-specific objects.
+[//]: # (This may be the most platform independent comment
+To make the API as explorable as possible, accounts have test mode and live mode API keys. There is no "switch" for changing between modes, just use the appropriate key to perform a live or test transaction. Requests made with test mode credentials never hit the banking networks and incur no cost.)
 
 # Authentication
 
-  
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-'''shell
-curl https://api.stripe.com/v1/charges \
-    -u sk_test_BQokikJOvBiI2HlWgH4olfQ2:
-'''
 
 >cURL uses the -u flag to pass basic auth credentials (adding a colon after your API key prevents cURL from asking for a password).A sample test API key is included in all the examples on this page, so you can test any example right away. To test requests using your account, replace the sample API key with your actual API key.
 
 ```shell
 # With curl, you can just pass the correct header with each request
 curl "api_endpoint_here" \
-    -H "Authorization: meowmeowmeow"
+    -H "Authorization: ApiKey username:apikey"
 ```
 
 Authenticate your account when using the API by including your secret API key in the request. You can manage your API keys in the Dashboard. Your API keys carry many privileges, so be sure to keep them secret! Do not share your secret API keys in publicly accessible areas such GitHub, client-side code, and so forth.
-Authentication to the API is performed via HTTP Basic Auth. Provide your API key as the basic auth username value. You do not need to provide a password.
-All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.
+Provide your API key in the Authorization Header along with your username. You do not need to provide a password.
+All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail. Also There must exist an `API_KEY` in the Authorization header and a `CONSUMER_KEY` in arguments with each request. PAPI would return `401-Unathorized` if either of them is not provided.
+
+`API_KEY` : This is give to the Parters, so that they can make requests from their portal.
+`CONSUMER_KEY`: This is the key given to the consumer interacting with our partner which asserts that the request the partner is making on behalf of the CONSUMER is valid, i.e. he has the permission to make that request from the consumer end.
 
 
 
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>apikey</code> with your personal API key.
+You must replace <code>username</code> with your username.
 </aside>
+
 
 #Errors
 
-Stripe uses conventional HTTP response codes to indicate the success or failure of an API request. In general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a charge failed, etc.), and codes in the 5xx range indicate an error with Stripe's servers (these are rare).
+PAPI uses conventional HTTP response codes to indicate the success or failure of an API request. In general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a charge failed, etc.), and codes in the 5xx range indicate an error with DoSelect's servers (these are rare).
 Not all errors map cleanly onto HTTP response codes, however. When a request is valid but does not complete successfully (e.g., a card is declined), we return a 402 error code.
 
 >###ATTRIBUTES
@@ -83,15 +73,15 @@ Error Code | Summary
 402 - Request Failed|Theparameters were valid but the request failed.
 404 - Not Found|The requested resource doesn't exist.
 429 - Too Many Requests|Too many requests hit the API too quickly.
-500, 502, 503, 504 - Server Errors|Something went wrong on Stripe's end. (These are rare.)
+500, 502, 503, 504 - Server Errors|Something went wrong on DoSelect's end. (These are rare.)
 
 
 
 >###Error TYPES
 Error | Description
 -------|------------
-api_connection_error|Failure to connect to Stripe's API.
-api_error|API errors cover any other type of problem (e.g., a temporary problem with Stripe's servers) and are extremely uncommon.
+api_connection_error|Failure to connect to PAPI.
+api_error|API errors cover any other type of problem (e.g., a temporary problem with DoSelect's servers) and are extremely uncommon.
 authentication_error|Failure to properly authenticate yourself in the request.
 card_error|Card errors are the most common type of error you should expect to handle. They result when the user enters a card that can't be charged for some reason.
 invalid_request_error|Invalid request errors arise when your request has invalid parameters.
@@ -116,18 +106,6 @@ processing_error|An error occurred while processing the card.
 
 >CVC validation and zip validation can be enabled/disabled in your settings
 
-#Expanding Objects
-
-Many objects contain the ID of a related object in their response properties. For example, a Charge may have an associated Customer ID. Those objects can be expanded inline with the expand request parameter. Objects that can be expanded are noted in this documentation. This parameter is available on all API requests, and applies to the response of that request only.
-You can nest expand requests with the dot property. For example, requesting invoice.customer on a charge will expand the invoice property into a full Invoice object, and will then expand the customer property on that invoice into a full Customer object.
-You can expand multiple objects at once by identifying multiple items in the expand array.
-
-
-```shell
-curl https://api.stripe.com/v1/charges/ch_17CYv92eZvKYlo2 \
-   -u sk_test_BQokikJOvBiI2HlWgH4olfQ2: \
-   -d expand[]=customer
-```
 
 
 #Idempotent Requests
@@ -138,7 +116,7 @@ How you create unique keys is completely up to you. We suggest using random stri
 
 
 ```shell
-curl https://api.stripe.com/v1/charges
+curl https://api.doselect.com/v1/charges
    -u sk_test_BQokikJOvBiI2HlWgH4olfQ2:
    -H "Idempotency-Key: 48YnJFsWVbZtXi9A"
    -d amount=400
@@ -148,13 +126,13 @@ curl https://api.stripe.com/v1/charges
 
 #Metadata
 
-Updatable Stripe objects—including Account, Charge, Customer, Refund, Subscription, and Transfer—have a metadata parameter. You can use this parameter to attach key-value data to these Stripe objects.
-Metadata is useful for storing additional, structured information on an object. As an example, you could store your user's full name and corresponding unique identifier from your system on a Stripe Customer object. Metadata is not used by Stripe (e.g., to authorize or decline a charge), and won't be seen by your users unless you choose to show it to them.
-Some of the objects listed above also support a description parameter. You can use the description parameter to annotate a charge, for example, with a human-readable description, such as "2 shirts for test@example.com". Unlike metadata, description is a single string, and your users may see it (e.g., in email receipts Stripe sends on your behalf).
+Updatable DoSelect objects—including Account, Charge, Customer, Refund, Subscription, and Transfer—have a metadata parameter. You can use this parameter to attach key-value data to these DoSelect objects.
+Metadata is useful for storing additional, structured information on an object. As an example, you could store your user's full name and corresponding unique identifier from your system on a DoSelect Customer object. Metadata is not used by DoSelect (e.g., to authorize or decline a charge), and won't be seen by your users unless you choose to show it to them.
+Some of the objects listed above also support a description parameter. You can use the description parameter to annotate a charge, for example, with a human-readable description, such as "2 shirts for test@example.com". Unlike metadata, description is a single string, and your users may see it (e.g., in email receipts DoSelect sends on your behalf).
 Note: You can have up to 20 keys, with key names up to 40 characters long and values up to 500 characters long.
 SAMPLE METADATA USE CASES
 Link IDs
-Attach your system's unique IDs to a Stripe object for easy lookups. Add your order number to a charge, your user ID to a customer or recipient, or a unique receipt number to a transfer, for example.
+Attach your system's unique IDs to a DoSelect object for easy lookups. Add your order number to a charge, your user ID to a customer or recipient, or a unique receipt number to a transfer, for example.
 Refund papertrails
 Store information about why a refund was created, and by whom.
 Customer details
@@ -162,7 +140,7 @@ Annotate a customer by storing the customer's phone number for your later use.
 
 
 ```shell
-curl https://api.stripe.com/v1/charges
+curl https://api.doselect.com/v1/charges
    -u sk_test_BQokikJOvBiI2HlWgH4olfQ2:
    -d amount=400
    -d currency=usd
@@ -240,8 +218,9 @@ curl https://api.stripe.com/v1/charges
 
 #Pagination
 
-All top-level API resources have support for bulk fetches via "list" API methods. For instance you can list charges, list customers, and list invoices. These list API methods share a common structure, taking at least these three parameters: limit, starting_after, and ending_before.
-Stripe utilizes cursor-based pagination via the starting_after and ending_before parameters. Both take an existing object ID value (see below). The ending_before parameter returns objects created before the named object, in descending chronological order. The starting_after parameter returns objects created after the named object, in ascending chronological order. If both parameters are provided, only ending_before is used.
+All top-level API resources have support for bulk fetches via "list" API methods. For instance you can list Teams and Invites. These list API methods share a common structure, taking at least these three parameters: limit, starting_after, and ending_before.
+DoSelect utilizes cursor-based pagination via the starting_after and ending_before parameters. Both take an existing object ID value (see below). The ending_before parameter returns objects created before the named object, in descending chronological order. The starting_after parameter returns objects created after the named object, in ascending chronological order. If both parameters are provided, only ending_before is used.
+
 
 >###ARGUMENTS
  | 
@@ -260,7 +239,7 @@ url string| The URL for accessing this list.
 
 
 ```shell
-curl https://api.stripe.com/v1/customers?limit=3
+curl https://api.doselect.com/v1/customers?limit=3
    -u sk_test_BQokikJOvBiI2HlWgH4olfQ2:
 ```
 
@@ -339,19 +318,23 @@ Each API request has an associated request identifier. You can find this value i
 Versioning
 When we make backwards-incompatible changes to the API, we release new, dated versions. The current version is 2015-10-16. Read our API upgrades guide to see our API changelog and to learn more about backwards compatibility.
 All requests will use your account API settings, unless you override the API version on a specific request. The changelog lists every available version. Note that events generated by API requests will always be structured according to your account API version.
-To set the API version on a specific request, send a Stripe-Version header.
+To set the API version on a specific request, send a DoSelect-Version header.
 You can visit your Dashboard to upgrade your API version. As a precaution, use API versioning to test a new API version before committing to an upgrade.
 
 
-
+api_key
 # Resources
 ## User
 
 ```shell
-curl http://doselect.local:8000/papi/user/<username> \
-    -H Authorization: ApiKey <self_username>:<api_key>
 
-# Replace <username> with the username, <api_key> with your api_key and <self_username> with your username
+curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
+  http://doselect.local:8000/papi/v1/user/USERNAME?key=CONSUMER_KEY|python -m json.tool
+
+# Replace USERNAME with the username you want to retrieve, API_KEY with your api_key and YOUR_USERNAME with your username
+# Replace CONSUMER_KEY with your customer consumer key
+#Piping `python -m json.tool` is optional
+
 ```
 
 >The above request generates the below given json response
@@ -397,15 +380,17 @@ For the detail endoint of the user please refer to the example on the right.
 
 This endpoint is only exposed for recruiters to view a hackers profile, any other case will return an Error.
 
-
+TODO: ADD ERRORS
 
 ##Team
 
 ```shell
-curl http://doselect.local:8000/papi/v1/team/<team_name> \
-    -H Authorization: ApiKey <self_username>:<api_key>
+curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
+  http://doselect.local:8000/papi/v1/team/TEAM_NAME?key=CONSUMER_KEY|python -m json.tool
 
-# Replace <team_name> with the name of the team, <api_key> with your api_key and <self_username> with your username
+## Replace TEAM_NAME with the team name(on DOSELECT)you want to  you want to retrieve, API_KEY with your api_key and YOUR_USERNAME with your username
+# Replace CONSUMER_KEY with your customer consumer key
+#Piping `python -m json.tool` is optional
 ```
 
 >The above request gives you the following json response
@@ -428,6 +413,204 @@ For the detail endpoint of the Team , refer to the example on the right.
 
 This endpoint is only exposed for recruiters to view a Team profile, any other case will result in an Error.
 
+TODO: List Errors
+
+
+## Test
+
+```shell
+
+curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
+  http://doselect.local:8000/papi/v1/test/?key=CONSUMER_KEY|python -m json.tool
+
+# Replace API_KEY with your api_key and YOUR_USERNAME with your username
+# Replace CONSUMER_KEY with your customer consumer key
+#Piping `python -m json.tool` is optional
+
+```
+
+>The above request generates the below given json response
+
+```json
+{
+    "meta": {
+        "limit": 50,
+        "next": null,
+        "offset": 0,
+        "page_number": 1,
+        "previous": null,
+        "total_count": 4,
+        "total_pages": 1
+    },
+    "objects": [
+        {
+            "creator": "9518774bbce2779fb5c20e4c0",
+            "cutoff": 0,
+            "duration": 100,
+            "instructions": "test to check read operation",
+            "is_activated": true,
+            "name": "papitest",
+            "owner": "localenv",
+            "resource_uri": "/papi/v1/test/1",
+            "sections": "[{u'content': u'con', u'title': u'test 2'}, {u'content': u'test contemt', u'title': u'test title'}]",
+            "slug": "50vj0"
+        },
+        {
+            "creator": "test_user",
+            "cutoff": 0,
+            "duration": 0,
+            "instructions": "testslkjglsk",
+            "is_activated": false,
+            "name": "test11",
+            "owner": "Camp",
+            "resource_uri": "/papi/v1/test/2",
+            "sections": "",
+            "slug": "test11"
+        },
+        {
+            "creator": "test_user",
+            "cutoff": 0,
+            "duration": 0,
+            "instructions": "testslkjglsk",
+            "is_activated": true,
+            "name": "test111",
+            "owner": "Camp",
+            "resource_uri": "/papi/v1/test/4",
+            "sections": "",
+            "slug": "test111"
+        },
+        {
+            "creator": "test_user",
+            "cutoff": 0,
+            "duration": 0,
+            "instructions": "testselkjglsk",
+            "is_activated": true,
+            "name": "test111",
+            "owner": "Camp",
+            "resource_uri": "/papi/v1/test/100",
+            "sections": "",
+            "slug": "test11111"
+        }
+    ]
+}
+
+```
+
+This endpoint gives access to Doselect Tests. You can retrieve it to see a list view of the tests on Doselect,
+see example on the right
+
+
+```shell
+
+curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
+  http://doselect.local:8000/papi/v1/test/TEST_ID?key=CONSUMER_KEY|python -m json.tool
+
+# Replace API_KEY with your api_key and YOUR_USERNAME with your username
+# Replace TEST_ID with the test id of the Test Resource you want to access
+# Replace CONSUMER_KEY with your customer consumer key
+#Piping `python -m json.tool` is optional
+
+```
+
+>The above request generates the below given json response
+
+```json
+{
+  "creator": "9518774bbce2779fb5c20e4c0",
+  "cutoff": 0,
+  "duration": 100,
+  "instructions": "test to check read operation",
+  "is_activated": true,
+  "name": "papitest",
+  "owner": "localenv",
+  "resource_uri": "/papi/v1/test/1",
+  "sections": "[{u'content': u'con', u'title': u'test 2'}, {u'content': u'test contemt', u'title': u'test title'}]",
+  "slug": "50vj0"
+}
+```
+To generate a detail view of the Test Resorce follow the example on the right
+TODO: ADD ERRORS
+
+## Invites
+
+```shell
+
+curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
+  http://doselect.local:8000/papi/v1/invite/?key=CONSUMER_KEY|python -m json.tool
+
+# Replace API_KEY with your api_key and YOUR_USERNAME with your username
+# Replace CONSUMER_KEY with your customer consumer key
+#Piping `python -m json.tool` is optional
+
+```
+
+>The above request generates the below given json response
+
+```json
+{
+  "meta": {
+    "limit": 50,
+    "next": null,
+    "offset": 0,
+    "page_number": 1,
+    "previous": null,
+    "total_count": 1,
+    "total_pages": 1
+  },
+  "objects": [
+    {
+      "accepted": false,
+      "access_code": "a3a2131962154d48b2bfa814c7f7bbf1",
+      "company": "localenv",
+      "creator": "9518774bbce2779fb5c20e4c0",
+      "email": "some-email@doselect.com",
+      "expiry": "2015-12-11T11:17:45.444623",
+      "rejected": false,
+      "resource_uri": "/papi/v1/invite/1",
+      "times_reset": 0,
+      "user": "devhacker"
+    }
+  ]
+}
+```
+
+This gives out a list of invites in the database. You can retrieve it to see a list-view of the Invite Resource
+
+`curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
+  http://doselect.local:8000/papi/v1/invite/INVITE_ID?key=CONSUMER_KEY|python -m json.tool`
+
+
+```shell
+
+curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
+  http://doselect.local:8000/papi/v1/invite/INVITE_ID?key=CONSUMER_KEY|python -m json.tool
+
+# Replace API_KEY with your api_key and YOUR_USERNAME with your username
+# Replace INVITE_ID with the invite id you want to access
+# Replace CONSUMER_KEY with your customer consumer key
+#Piping `python -m json.tool` is optional
+
+```
+>The above request generates the below given json response
+
+
+```json
+{
+  "accepted": false,
+  "access_code": "a3a2131962154d48b2bfa814c7f7bbf1",
+  "company": "localenv",
+  "creator": "9518774bbce2779fb5c20e4c0",
+  "email": "some-email@doselect.com",
+  "expiry": "2015-12-11T11:17:45.444623",
+  "rejected": false,
+  "resource_uri": "/papi/v1/invite/1",
+  "times_reset": 0,
+  "user": "devhacker"
+}
+```
+To generate a detail view of the Test Resorce follow the example on the right.
+
+TODO: ADD ERRORS
 
 
 
