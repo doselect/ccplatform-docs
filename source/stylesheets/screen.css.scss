@@ -407,7 +407,6 @@ html, body {
   }
 
   table {
-    @color #d3d3d3;
     margin-bottom: 1em;
     overflow: auto;
     th,td {
@@ -429,15 +428,16 @@ html, body {
     tr:last-child {
       border-bottom: 1px solid #ccc;
     }
-
+    
     tr:nth-child(odd)>td {
-      background-color: #696969;
+      background-color: lighten($main-bg,4.2%);
     }
 
     tr:nth-child(even)>td {
-      background-color: #555555;
+      background-color: lighten($main-bg,2.4%);
     }
-  }
+
+    }
 
   dt {
     font-weight: bold;
