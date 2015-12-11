@@ -322,6 +322,7 @@ To set the API version on a specific request, send a DoSelect-Version header.
 You can visit your Dashboard to upgrade your API version. As a precaution, use API versioning to test a new API version before committing to an upgrade.
 
 #Flows
+
 ##Partner Consumer flow
 + Each Team registered with us will have a CONSUMER_KEY,which can be accessed from the Accounts Section.
 + Each Partner will have an API_KEY through which they can access our partner api (PAPI)
@@ -340,6 +341,7 @@ You can visit your Dashboard to upgrade your API version. As a precaution, use A
   + Problem set from public or private problem repository
 
 ##Problem Addition flow
+
 There are three places from where you can choose problems that should be added to the Test.
 
 + Private Library -You can Edit/Delete/Create the Problems in this library. This is only visible to you
@@ -350,11 +352,19 @@ There are three places from where you can choose problems that should be added t
 
 ##Create Invite for a Team's Test
 To create an invite you must pass the email for invite and the test name for which the email is invited.
-Deletion of an invite is not accepted
+Deletion of an invite is not allowed if the invite has been accepted
 
 ##Test Report 
 Partners are allowed to read (both list and detail view) for each test
 
+##States of a test
+A test can be in three states 
++ Draft - No problems and no invites. Problems can be added and deleted from this state. Test can be deleted in 
+  this state
++ Live - A test will go live when atleast one problem is added. 0-n invites have been sent. Problems can be added
+  and deleted from this state. Test cannot be deleted once it is in live state.
++ Active - A test will become active when atleast one invite is accepted. Problems can be added but not deleted 
+  once the test is active. The test cannot be deleted from active state.
 
 # Resources
 ## User
