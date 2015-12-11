@@ -321,8 +321,41 @@ All requests will use your account API settings, unless you override the API ver
 To set the API version on a specific request, send a DoSelect-Version header.
 You can visit your Dashboard to upgrade your API version. As a precaution, use API versioning to test a new API version before committing to an upgrade.
 
+#Flows
+##Partner Consumer flow
++ Each Team registered with us will have a CONSUMER_KEY,which can be accessed from the Accounts Section.
++ Each Partner will have an API_KEY through which they can access our partner api (PAPI)
++ In order to do any activity on behalf of the Team(Company) accociated with the Partner, the Partner
+  must send the Team's CONSUMER_KEY along with his API_KEY with every request.
++ The API_KEY will authenticate the Partner to use our API while the CONSUMER_KEY authorizes the Partner to make  
+  changes for the Team having the CONSUMER_KEY.
++ API_KEY and CONSUMER_KEY gives you several privileges and must be kept PRIVATE at all times.
 
-api_key
+##Test Creation Flow
++ Tests can be Created/Updated/Deleted by the partner for the consumer using the above flow
++ In order to do any of the operations on the test Resource you must pass the -
+  + Team which you want to do the operations one
+  + The name of the Tests
+  + The Duration of the Test
+  + Problem set from public or private problem repository
+
+##Problem Addition flow
+There are three places from where you can choose problems that should be added to the Test.
+
++ Private Library -You can Edit/Delete/Create the Problems in this library. This is only visible to you
++ Community Library -You can only Use problems from this library in your tests. This library is visible 
+  to all the  Teams and Partners
++ Problem Market Place- You can Buy problem sets suiting you requirement from here which will be then 
+  added to your Private Library.
+
+##Create Invite for a Team's Test
+To create an invite you must pass the email for invite and the test name for which the email is invited.
+Deletion of an invite is not accepted
+
+##Test Report 
+Partners are allowed to read (both list and detail view) for each test
+
+
 # Resources
 ## User
 
