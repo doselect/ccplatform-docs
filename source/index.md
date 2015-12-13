@@ -653,7 +653,68 @@ curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
 ```
 To generate a detail view of the Test Resorce follow the example on the right.
 
-TODO: ADD ERRORS
+To create a new invite you must include the EMAIL_ID and the test resource uri as data along with the authorization and content-type headers in the curl command example on the right.
 
+```shell
 
+curl -XPOST -H 'Authorization: ApiKey YOUR_USERNAME:API_KEY' -H "Content-type: application/json" -d '{"email":"foo@example.com", "team":"/papi/v1/test/1"}' 'http://doselect.local:8000/papi/v1/invite/?key=CONSUMER_KEY'|python -m json.tool
 
+# Replace API_KEY with your api_key and YOUR_USERNAME with your username
+# Replace INVITE_ID with the invite id you want to access
+# Replace CONSUMER_KEY with your customer consumer key
+#Piping `python -m json.tool` is optional
+
+```
+>The above request generates a new invite and return the following json response
+
+```json
+{
+    "accepted": false,
+    "access_code": "fab308f2dda846a0b4d2e8498043e74d",
+    "company": {
+        "avatar_url": "/static/companyicons/2.png",
+        "bio": null,
+        "name": "localenv",
+        "resource_uri": "/papi/v1/team/lonv",
+        "slug": "lonv"
+    },
+    "creator": {
+        "avatar_url": null,
+        "bio": null,
+        "city": null,
+        "companies": null,
+        "country": null,
+        "credits": null,
+        "dob": null,
+        "name": null,
+        "phone": null,
+        "primary_color": null,
+        "rating": null,
+        "resource_uri": "/papi/v1/user/recr",
+        "schools": null,
+        "sex": null,
+        "skype_id": null,
+        "timezone": null,
+        "username": "recr"
+    },
+    "email": "foo@campushash.com",
+    "rejected": false,
+    "resource_uri": "/papi/v1/invite/7",
+    "team": "/papi/v1/test/1",
+    "test": null,
+    "times_reset": 0,
+    "user": null
+}
+```
+
+To delete an existing invite send the delete requst as follows
+
+```shell
+curl -XDELETE -H 'Authorization: ApiKey YOUR_USERNAME:API_KEY' -H "Content-type: application/json" 'http://doselect.local:8000/papi/v1/invite/INVITE_ID?key=CONSUMER_KEY'|python -m json.tool
+
+# Replace API_KEY with your api_key and YOUR_USERNAME with your username
+# Replace INVITE_ID with the invite id you want to access
+# Replace CONSUMER_KEY with your customer consumer key
+#Piping `python -m json.tool` is optional
+```
+> The above request will delete the invite with ithe INVITE_ID sent along with the curl request
