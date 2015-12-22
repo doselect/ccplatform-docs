@@ -574,6 +574,16 @@ curl -H "Authorization: ApiKey YOUR_USERNAME:API_KEY" \
 To generate a detail view of the Test Resorce follow the example on the right
 TODO: ADD ERRORS
 
+
+###Nested Resources
+
+GET /papi/v1/test/<slug>/report/  : detail view of the reports for a particular test <slug>
+GET /papi/v1/test/<slug>/invite/  : list view of all the invites sent for a particular test <slug>
+GET /papi/v1/test/<slug>/report/<username>/ : detail view of the reports of a particular user <username>  of a particular test <slug>
+
+
+
+
 ## Invites
 
 ```shell
@@ -718,3 +728,10 @@ curl -XDELETE -H 'Authorization: ApiKey YOUR_USERNAME:API_KEY' -H "Content-type:
 #Piping `python -m json.tool` is optional
 ```
 > The above request will delete the invite with ithe INVITE_ID sent along with the curl request
+
+
+
+##Report
+
+GET /papi/v1/report/  : gives a list of all the reports
+GET /papi/v1/report/detail_uri_name
