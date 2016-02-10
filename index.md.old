@@ -1,0 +1,206 @@
+# Introduction
+
+The Stripe API is organized around REST. Our API has predictable, resource-oriented URLs, and uses HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which are understood by off-the-shelf HTTP clients. We support cross-origin resource sharing, allowing you to interact securely with our API from a client-side web application (though you should never expose your secret API key in any public website's client-side code). JSON is returned by all API responses, including errors, although our API libraries convert responses to appropriate language-specific objects.
+To make the API as explorable as possible, accounts have test mode and live mode API keys. There is no "switch" for changing between modes, just use the appropriate key to perform a live or test transaction. Requests made with test mode credentials never hit the banking networks and incur no cost.
+
+# Authentication
+
+Authenticate your account when using the API by including your secret API key in the request. You can manage your API keys in the Dashboard. Your API keys carry many privileges, so be sure to keep them secret! Do not share your secret API keys in publicly accessible areas such GitHub, client-side code, and so forth.
+Authentication to the API is performed via HTTP Basic Auth. Provide your API key as the basic auth username value. You do not need to provide a password.
+All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.
+
+> curl https://api.stripe.com/v1/charges \
+   -u sk_test_BQokikJOvBiI2HlWgH4olfQ2:
+   
+   
+   cURL uses the -u flag to pass basic auth credentials (adding a colon after your API key prevents cURL from asking for a password).
+A sample test API key is included in all the examples on this page, so you can test any example right away. To test requests using your account, replace the sample API key with your actual API key.
+
+
+```ruby
+require 'kittn'
+
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+```
+
+```python
+import kittn
+
+api = kittn.authorize('meowmeowmeow')
+```
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "api_endpoint_here"
+  -H "Authorization: meowmeowmeow"
+```
+
+
+<aside class="notice">
+You must replace <code>meowmeowmeow</code> with your personal API key.
+</aside>
+
+#Errors
+
+Stripe uses conventional HTTP response codes to indicate the success or failure of an API request. In general, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a charge failed, etc.), and codes in the 5xx range indicate an error with Stripe's servers (these are rare).
+Not all errors map cleanly onto HTTP response codes, however. When a request is valid but does not complete successfully (e.g., a card is declined), we return a 402 error code.
+
+###ATTRIBUTES
+
+type|The type of error returned. Can be: `api_connection_error`, `api_error`, `authentication_error`, `card_error`, `rate_limit_error` etc.
+----|--------------------------------------------------------------------------------------------------------------------------------
+message (optional)|A human-readable message providing more details about the error. For card errors, these messages can be shown to your users.
+code (optional)|For card errors, a short string from amongst those listed on the right describing the kind of card error that occurred.
+param (optional)|The parameter the error relates to if the error is parameter-specific. You can use this to display a message near the correct form field, for example.
+
+
+
+>###HTTP status code summary
+
+>Error Code | Summary
+---------- | ------- 
+200 - OK|Everything worked as expected.
+400 - Bad Request|The request was unacceptable, often due to missing a required parameter.
+401 - Unauthorized|No valid API key provided.
+402 - Request Failed|Theparameters were valid but the request failed.
+404 - Not Found|The requested resource doesn't exist.
+429 - Too Many Requests|Too many requests hit the API too quickly.
+500, 502, 503, 504 - Server Errors|Something went wrong on Stripe's end. (These are rare.)
+
+>###Error TYPES
+
+>Error | Description
+-------|------------
+api_connection_error|Failure to connect to Stripe's API.
+api_error|API errors cover any other type of problem (e.g., a temporary problem with Stripe's servers) and are extremely uncommon.
+authentication_error|Failure to properly authenticate yourself in the request.
+card_error|Card errors are the most common type of error you should expect to handle. They result when the user enters a card that can't be charged for some reason.
+invalid_request_error|Invalid request errors arise when your request has invalid parameters.
+rate_limit_error|Too many requests hit the API too quickly.
+
+>###CODES
+
+>Error|Description
+------|-----------
+invalid_number|The card number is not a valid credit card number.
+invalid_expiry_month|The card's expiration month is invalid.
+invalid_expiry_year|The card's expiration year is invalid.
+invalid_cvc|The card's security code is invalid.
+incorrect_number|The card number is incorrect.
+expired_card|The card has expired.
+incorrect_cvc|The card's security code is incorrect.
+incorrect_zip|The card's zip code failed validation.
+card_declined|The card was declined.
+missing|There is no card on a customer that is being charged.
+processing_error|An error occurred while processing the card.
+
+CVC validation and zip validation can be enabled/disabled in your settings.
+
+# Kittens
+
+## Get All Kittens
+
+```ruby
+require 'kittn'
+
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+api.kittens.get
+```
+
+```python
+import kittn
+
+api = kittn.authorize('meowmeowmeow')
+api.kittens.get()
+```
+
+```shell
+curl "http://example.com/api/kittens"
+  -H "Authorization: meowmeowmeow"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Fluffums",
+    "breed": "calico",
+    "fluffiness": 6,
+    "cuteness": 7
+  },
+  {
+    "id": 2,
+    "name": "Isis",
+    "breed": "unknown",
+    "fluffiness": 5,
+    "cuteness": 10
+  }
+]
+```
+
+This endpoint retrieves all kittens.
+
+### HTTP Request
+
+`GET http://example.com/api/kittens`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+include_cats | false | If set to true, the result will also include cats.
+available | true | If set to false, the result will include kittens that have already been adopted.
+
+<aside class="success">
+Remember — a happy kitten is an authenticated kitten!
+</aside>
+
+## Get a Specific Kitten
+
+```ruby
+require 'kittn'
+
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+api.kittens.get(2)
+```
+
+```python
+import kittn
+
+api = kittn.authorize('meowmeowmeow')
+api.kittens.get(2)
+```
+
+```shell
+curl "http://example.com/api/kittens/2"
+  -H "Authorization: meowmeowmeow"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+  "name": "Isis",
+  "breed": "unknown",
+  "fluffiness": 5,
+  "cuteness": 10
+}
+```
+
+This endpoint retrieves a specific kitten.
+
+<aside class="warning">If you're not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside>
+
+### HTTP Request
+
+`GET http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the kitten to retrieve
+

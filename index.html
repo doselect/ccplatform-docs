@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Content creators Guide</title>
+
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src="javascripts/all_nosearch.js"></script>
+
+  </head>
+
+  <body class="index">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="content-creator-39-s-guide">Content creator&rsquo;s Guide</h1>
+
+<p>Each problem should contain the following information:</p>
+
+<h3 id="problem-name">Problem name</h3>
+
+<p>Some fancy name for the problem. If the problems are part of a hackathon, the name should go along with the theme of the hackathon.</p>
+
+<h3 id="problem-statement">Problem statement</h3>
+
+<p>This explains the problem. The problem description should be interesting and easy to follow.</p>
+
+<h3 id="image-s-optional">Image(s) (optional)</h3>
+
+<p>Include image(s) if you think the problem can be better explained using them.</p>
+
+<h3 id="input-format">Input format</h3>
+
+<p>The description of input for the problem. This should also contain constraints.</p>
+
+<h3 id="output-format">Output format</h3>
+
+<p>The format of the Output</p>
+
+<h3 id="sample-test-cases">Sample test cases</h3>
+
+<p>Sample input test cases which will give better understanding. Include image(s) if it can be explained better using them.</p>
+
+<h3 id="editorial">Editorial</h3>
+
+<p>Explanation of solution to the problem.</p>
+
+<h3 id="solution">Solution</h3>
+
+<p>The solution code in any accepted language. It should be commented</p>
+
+<h3 id="difficulty-of-the-problem">Difficulty of the problem</h3>
+
+<p>One of the following</p>
+
+<ul>
+<li><strong>Easy:</strong> This kind of problem should be easily solvable by anyone who is familiar with basic data structures and algorithms. The approach for the solution should be obvious from the problem statement.
+<strong>Success rate:</strong> 80%</li>
+<li><strong>Medium:</strong> This kind of problem should require knowledge of advanced data structures and algorithms like Dynamic Programming, Greedy algorithms, Graph traversal, etc.
+<strong>Success rate:</strong> 50%</li>
+<li><strong>Hard:</strong> This kind of problem should require experience in competitive programming along with knowledge of advance programming concepts.
+<strong>Success rate:</strong> 20%</li>
+</ul>
+
+<h3 id="tags">Tags</h3>
+
+<p>Math, String manipulation, Graph, Dynamic programming, API</p>
+
+<h3 id="test-cases">Test cases</h3>
+
+<ul>
+<li><strong>Description of each test case and test generator</strong> This should also contain the weightage for each test case in order to distinguish difficult test cases from easy ones.<br>
+If using random in test case generator, make sure to use fixed seed to generate same test cases</li>
+<li><strong>Input file(s):</strong> 1 or more input files</li>
+<li><strong>Output file(s):</strong> 1 or more output files</li>
+<li><strong>Testing script (optional):</strong> The test script which will be used to evaluate the solution (for example, in case of OS state evaluation)</li>
+</ul>
+
+<h3 id="time-limit">Time limit</h3>
+
+<p>Approximate time limit for the code run</p>
+
+<h2 id="guidelines-for-creating-a-new-problem">Guidelines for creating a new problem</h2>
+
+<ul>
+<li>Try to base the problem on some practical use cases so that it becomes interesting and candidates get to learn something new in the process</li>
+<li>The problem should not be copied from other websites</li>
+<li>The solution should not be easily available on the internet</li>
+<li>The problem statement should be written in simple language so that there is no ambiguity</li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+<li>Input test cases should cover all corner cases so that the accepted solutions are correct</li>
+<li>Input test cases should contain easy test cases also so that users can get partial score for thie attempt</li>
+</ul>
+
+          <h1 id="example-problem">Example problem</h1>
+
+<p><strong>Problem name:</strong> Sam and candies</p>
+
+<p><strong>Problem statement</strong><br>
+Sam loves candies. He is in candyland. He found n bags of candies there. The bags are labelled from 1 to n.He can bring home only 2 bags of candies from there. What is the maximum number of candies which he can take home?</p>
+
+<p><strong>Input format</strong><br>
+The 1st line will contain n, the number of bags (<strong>1 &lt;= n &lt;= 10<sup>5</sup></strong>)<br>
+The second line will contain n integers which are the number of candies in i<sup>th</sup> bag (<strong>0 &lt;= Ai &lt;= 10<sup>5</sup></strong>)</p>
+
+<p><strong>Output format</strong><br>
+A single line containing the maximum number of candies</p>
+
+<p><strong>Sample test cases</strong></p>
+
+<p><strong>1)</strong></p>
+
+<p>Input<br>
+2<br>
+4 5</p>
+
+<p>Output<br>
+9</p>
+
+<p>Explanation<br>
+Only 2 bags are there, so we will take those bags</p>
+
+<p><strong>2)</strong></p>
+
+<p>Input<br>
+5<br>
+1 2 2 4 3</p>
+
+<p>Output<br>
+4 5</p>
+
+<p>Explanation
+Bag 4 and bag 3</p>
+
+<p><strong>Tags</strong><br>
+Easy</p>
+
+<p><strong>Editorial</strong><br>
+You can find the maximum number of candies by finding the two bags which have the maximum candies</p>
+
+<p><strong>Solution</strong></p>
+<pre class="highlight cpp"><code><span class="cp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">vector</span> <span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">bag</span><span class="p">;</span>
+
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="n">bag</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">bag</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">bag</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">bag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">bag</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="c1">// sort in decreasing order
+</span>        <span class="n">sort</span><span class="p">(</span><span class="n">bag</span><span class="p">.</span><span class="n">rbegin</span><span class="p">(),</span> <span class="n">bag</span><span class="p">.</span><span class="n">rend</span><span class="p">());</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">bag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">bag</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+      </div>
+      <div class="dark-box">
+      </div>
+    </div>
+  </body>
+</html>
