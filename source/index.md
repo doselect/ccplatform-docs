@@ -17,12 +17,14 @@ Each problem should contain the following information:
 Some fancy name for the problem. If the problems are part of a hackathon, the name should go along with the theme of the hackathon.
 ### Problem statement
 This explains the problem. The problem description should be interesting and easy to follow.
+### Image(s) (optional)
+Include image(s) if you think the problem can be better explained using them.
 ### Input format
 The description of input for the problem. This should also contain constraints.
 ### Output format
 The format of the Output
 ### Sample test cases
-Sample input test cases which will give better understanding
+Sample input test cases which will give better understanding. Include image(s) if it can be explained better using them.
 ### Editorial
 Explanation of solution to the problem.
 ### Solution
@@ -41,7 +43,8 @@ One of the following
 Math, String manipulation, Graph, Dynamic programming, API
 ### Test cases
 
-* **Description of each test case and test generator** if using random in test case generator, make sure to use fixed seed to generate same test cases
+* **Description of each test case and test generator** This should also contain the weightage for each test case in order to distinguish difficult test cases from easy ones.  
+If using random in test case generator, make sure to use fixed seed to generate same test cases
 * **Input file(s):** 1 or more input files
 * **Output file(s):** 1 or more output files
 * **Testing script (optional):** The test script which will be used to evaluate the solution (for example, in case of OS state evaluation)
